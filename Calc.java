@@ -2,32 +2,32 @@ import java.util.Scanner;
 
 class Calc {
     static Scanner scan = new Scanner(System.in);
-    static int a, b;
+    static int operand1, operand2;
     static int result;
 
     public static void main(String[] args) throws Exception {
         String[] input = scan.nextLine().split(" ");
-        if (input.length > 3) {
-            throw new Exception("Не более 2 операндов и 1 знака операции");
+        if (input.length != 3) {
+            throw new Exception("Два операнда и один оператор (+,-,*,/)");
         }
         if (input[0].equals("I") || input[0].equals("II") || input[0].equals("III") || input[0].equals("IV") || input[0].equals("V") || input[0].equals("VI") || input[0].equals("VII") || input[0].equals("VIII") || input[0].equals("IX") || input[0].equals("X") && input[2].equals("I") || input[2].equals("II") || input[2].equals("III") || input[2].equals("IV") || input[2].equals("V") || input[2].equals("VI") || input[2].equals("VII") || input[2].equals("VIII") || input[2].equals("IX") || input[2].equals("X")) {
-            a = romanToArab(input[0]);
-            b = romanToArab(input[2]);
+            operand1 = romanToArab(input[0]);
+            operand2 = romanToArab(input[2]);
 
-            if (a > 0 && a < 11 && b > 0 && b < 11) {
-                result = calc(a, b, input[1]);
+            if (operand1 > 0 && operand1 < 11 && operand2 > 0 && operand2 < 11) {
+                result = calc(operand1, operand2, input[1]);
                 if (result > 0) {
                     String resultRomanNum = convertArabToRoman(result);
                     System.out.println(resultRomanNum);
                 } else {
-                    throw new Exception("Результат не может быть меньше 1");
+                    throw new Exception("Римское число не может быть 0 или отрицательным!");
                 }
             }
         } else {
-            a = Integer.parseInt(input[0]);
-            b = Integer.parseInt(input[2]);
-            if (a < 11 && a > 0 && b < 11 && b > 0) {
-                result = calc(a, b, input[1]);
+            operand1 = Integer.parseInt(input[0]);
+            operand2 = Integer.parseInt(input[2]);
+            if (operand1 < 11 && operand1 > 0 && operand2 < 11 && operand2 > 0) {
+                result = calc(operand1, operand2, input[1]);
                 System.out.println(result);
             } else {
                 throw new Exception("Вводить нужно только от 1 до 10 включительно!");
@@ -60,7 +60,7 @@ class Calc {
                     return 10;
             }
         } else {
-            throw new Exception("Не верный ввод числа");
+            throw new Exception("Используются одновременно разные системы счисления!");
         }
         return 0;
     }
@@ -78,9 +78,9 @@ class Calc {
         return roman.toString();
     }
 
-    static int calc(int a, int b, String operation) {
+    static int calc(int a, int b, String operator) {
         int result;
-        switch (operation) {
+        switch (operator) {
             case "+":
                 result = a + b;
                 break;
@@ -98,7 +98,7 @@ class Calc {
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Не верный знак операции: " + operation);
+                throw new IllegalArgumentException("Не верный знак операции: " + operator);
         }
         return result;
     }
